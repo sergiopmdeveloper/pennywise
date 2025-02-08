@@ -1,7 +1,8 @@
-from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-app = FastAPI()
+from src.__base.utils import init_app
+
+app = init_app()
 
 
 @app.get("/")

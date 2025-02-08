@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.constants import ALLOWED_ORIGINS
+from src.__base.constants import ALLOWED_ORIGINS
 
 
 def init_app() -> FastAPI:
