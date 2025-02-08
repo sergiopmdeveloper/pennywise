@@ -1,0 +1,5 @@
+# Local
+.devcontainer
+
+# Python
+__pycache__
