@@ -10,6 +10,6 @@ def create_db_and_tables() -> None:
     Initialise the database and its corresponding tables if necessary.
     """
 
-    __import__("src.__modules.auth.models")
+    __import__("src.__modules.user.models")
 
     SQLModel.metadata.create_all(engine)
