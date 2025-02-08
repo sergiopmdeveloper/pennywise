@@ -1,4 +1,7 @@
 # Local
+db.sqlite
+
+# Development
 .devcontainer
 
 # Python
