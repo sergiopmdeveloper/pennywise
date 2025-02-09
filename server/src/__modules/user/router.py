@@ -11,7 +11,9 @@ from src.__modules.user.schemas import UserCreationSchema
 router = APIRouter(prefix="/user", tags=["user"])
 
 
-@router.post("", response_model=MutationResponseSchema)
+@router.post(
+    "", response_model=MutationResponseSchema, status_code=status.HTTP_201_CREATED
+)
 def create_user(
     *, session: Session = Depends(get_session), user_data: UserCreationSchema
 ) -> MutationResponseSchema:
