@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session
 
 from src.__base.dependencies import get_session
 from src.__base.schemas import MutationResponseSchema
+from src.__modules.auth.utils import password_context
+from src.__modules.user.models import User
 from src.__modules.user.schemas import UserCreationSchema
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -28,6 +31,19 @@ def create_user(
         The user creation response.
     """
 
+    user_data.password = password_context.hash(user_data.password.get_secret_value())
+
+    user = User.model_validate(user_data)
+
+    session.add(user)
+
+    try:
+        session.commit()
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
+        )
+
     return MutationResponseSchema(
-        entity="user", action="create", affected_ids=["user_id"]
+        entity="user", action="create", affected_ids=[str(user.id)]
     )
