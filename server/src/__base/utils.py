@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.__base.constants import ALLOWED_ORIGINS
 from src.__database.utils import create_db_and_tables
+from src.__modules.user.router import router as user_router
 
 
 @asynccontextmanager
@@ -38,6 +39,8 @@ def init_app() -> FastAPI:
     """
 
     app = FastAPI(lifespan=lifespan)
+
+    app.include_router(user_router)
 
     app.add_middleware(
         CORSMiddleware,
