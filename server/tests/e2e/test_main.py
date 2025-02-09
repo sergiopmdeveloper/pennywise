@@ -8,7 +8,7 @@ from src.__modules.user.router import router as user_router
 
 async def test_lifespan():
     """
-    WHEN lifespan context is called,
+    WHEN the lifespan context is called,
     THEN the function create_db_and_tables should be called.
     """
 
