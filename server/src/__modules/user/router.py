@@ -3,20 +3,17 @@ from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session
 
 from src.__base.dependencies import get_session
-from src.__base.schemas import MutationResponseSchema
-from src.__modules.auth.utils import password_hasher
+from src.__modules.auth.utils import JWTHandler, password_hasher
 from src.__modules.user.models import User
-from src.__modules.user.schemas import UserCreationSchema
+from src.__modules.user.schemas import CreatedUserSchema, UserCreationSchema
 
 router = APIRouter(prefix="/user", tags=["user"])
 
 
-@router.post(
-    "", response_model=MutationResponseSchema, status_code=status.HTTP_201_CREATED
-)
+@router.post("", response_model=CreatedUserSchema, status_code=status.HTTP_201_CREATED)
 def create_user(
     *, session: Session = Depends(get_session), user_data: UserCreationSchema
-) -> MutationResponseSchema:
+) -> CreatedUserSchema:
     """
     POST | /user | Creates a new user.
 
@@ -29,8 +26,8 @@ def create_user(
 
     Returns
     -------
-    MutationResponseSchema
-        The user creation response.
+    CreatedUserSchema
+        The created user response.
     """
 
     user_data.password = password_hasher.hash(user_data.password.get_secret_value())
@@ -46,6 +43,11 @@ def create_user(
             status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
         )
 
-    return MutationResponseSchema(
-        entity="user", action="create", affected_ids=[str(user.id)]
+    return CreatedUserSchema(
+        entity="user",
+        action="create",
+        affected_ids=[str(user.id)],
+        token={
+            "value": JWTHandler.generate_token({"sub": str(user.id)}),
+        },
     )

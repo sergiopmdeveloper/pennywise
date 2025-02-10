@@ -1,5 +1,8 @@
 from pydantic import BaseModel, EmailStr, SecretStr
 
+from src.__base.schemas import MutationResponseSchema
+from src.__modules.auth.schemas import TokenSchema
+
 
 class UserCreationSchema(BaseModel):
     """
@@ -18,3 +21,11 @@ class UserCreationSchema(BaseModel):
     name: str
     email: EmailStr
     password: SecretStr
+
+
+class CreatedUserSchema(MutationResponseSchema):
+    """
+    Created user schema.
+    """
+
+    token: TokenSchema
