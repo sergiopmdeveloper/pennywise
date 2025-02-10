@@ -1,3 +1,3 @@
 fastapi[standard]==0.115.8
 sqlmodel==0.0.22
-passlib[argon2]==1.7.4
+argon2-cffi==23.1.0

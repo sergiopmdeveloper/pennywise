@@ -4,7 +4,7 @@ from sqlmodel import Session
 
 from src.__base.dependencies import get_session
 from src.__base.schemas import MutationResponseSchema
-from src.__modules.auth.utils import password_context
+from src.__modules.auth.utils import password_hasher
 from src.__modules.user.models import User
 from src.__modules.user.schemas import UserCreationSchema
 
@@ -33,7 +33,7 @@ def create_user(
         The user creation response.
     """
 
-    user_data.password = password_context.hash(user_data.password.get_secret_value())
+    user_data.password = password_hasher.hash(user_data.password.get_secret_value())
 
     user = User.model_validate(user_data)
 

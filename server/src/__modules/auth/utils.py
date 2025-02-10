@@ -1,3 +1,3 @@
-from passlib.context import CryptContext
+from argon2 import PasswordHasher
 
-password_context = CryptContext(schemes=["argon2"])
+password_hasher = PasswordHasher()
