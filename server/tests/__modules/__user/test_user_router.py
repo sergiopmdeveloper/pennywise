@@ -4,11 +4,13 @@ from sqlmodel import Session
 from src.__modules.user.models import User
 
 
-def test_post_user_success(client: TestClient):
+def test_post_user_success(monkeypatch, client):
     """
-    WHEN a POST request is made to create a new user,
-    THEN the response should return a 201 status code with the details of the mutation.
+    WHEN a valid POST request is made to the user endpoint,
+    THEN the response returns 201 with the created entity details.
     """
+
+    monkeypatch.setenv("SECRET_KEY", "secret")
 
     # WHEN
     response = client.post(
@@ -28,11 +30,11 @@ def test_post_user_success(client: TestClient):
     assert data.get("affected_ids")
 
 
-def test_post_user_conflict(session: Session, client: TestClient):
+def test_post_user_conflict(session, client):
     """
-    GIVEN an existing user in the database,
-    WHEN a POST request is made to create a new user with the same email,
-    THEN the response should return a 409 status code with a message indicating that the email already exists.
+    GIVEN an existing user,
+    WHEN a POST request is made to the user endpoint with the same email as the existing one,
+    THEN the response returns 409 with a conflict message.
     """
 
     # GIVEN

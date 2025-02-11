@@ -91,5 +91,5 @@ class JWTHandler:
             )
         except jwt.PyJWTError:
             raise jwt.PyJWTError("Invalid token")
-        except Exception as e:
-            raise e
+        except Exception:
+            raise Exception("Unknown error")

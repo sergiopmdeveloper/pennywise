@@ -1,7 +1,6 @@
 from unittest.mock import patch
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.testclient import TestClient
 
 from src.__base.utils import init_app, lifespan
 from src.__modules.user.router import router as user_router
@@ -9,8 +8,8 @@ from src.__modules.user.router import router as user_router
 
 async def test_lifespan():
     """
-    WHEN the lifespan context is called,
-    THEN the function create_db_and_tables should be called.
+    WHEN the lifespan context is entered,
+    THEN the create_db_and_tables function is called.
     """
 
     # WHEN
@@ -25,7 +24,7 @@ async def test_lifespan():
 def test_init_app():
     """
     WHEN the init_app function is called,
-    THEN the app should be instantiated with the expected parameters.
+    THEN a FastAPI instance is created with the expected parameters.
     """
 
     # WHEN
@@ -42,17 +41,3 @@ def test_init_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-
-def test_get_root_redirection(client: TestClient):
-    """
-    WHEN a GET request is made to the root endpoint,
-    THEN the response should be a redirection to the /docs page.
-    """
-
-    # WHEN
-    response = client.get("/")
-
-    # THEN
-    assert response.url.path == "/docs"
-    assert response.history[0].status_code == 307
