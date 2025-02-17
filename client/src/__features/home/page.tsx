@@ -1,6 +1,8 @@
+import { Button } from '@/__ui/components/ui/button';
+
 /**
  * Home page component.
  */
 export default function Home() {
-  return <h1>Home page</h1>;
+  return <Button>Home page</Button>;
 }

@@ -1,6 +1,8 @@
+import { Button } from '@/__ui/components/ui/button';
+
 /**
  * Sign up page component.
  */
 export default function SignUp() {
-  return <h1>Sign up page</h1>;
+  return <Button>Sign up page</Button>;
 }
