@@ -1,4 +1,4 @@
-import SignUpForm from '@/__features/sign-up/components/sign-up-form';
+import { SignUpForm } from '@/__features/sign-up/components';
 
 /**
  * Sign up page component.

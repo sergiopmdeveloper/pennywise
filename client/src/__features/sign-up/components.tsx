@@ -14,7 +14,7 @@ import { Link } from 'react-router';
 /**
  * Sign up form component.
  */
-export default function SignUpForm() {
+export function SignUpForm() {
   return (
     <Card className="w-sm">
       <CardHeader>
@@ -24,6 +24,11 @@ export default function SignUpForm() {
 
       <CardContent>
         <form className="space-y-6" id="sign-up-form">
+          <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" autoComplete="name" placeholder="Pennywise" />
+          </div>
+
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" autoComplete="email" placeholder="pennywise@gmail.com" />
