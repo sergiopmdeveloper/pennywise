@@ -1,8 +1,12 @@
-import { Button } from '@/__ui/components/ui/button';
+import SignUpForm from '@/__features/sign-up/components/sign-up-form';
 
 /**
  * Sign up page component.
  */
 export default function SignUp() {
-  return <Button>Sign up page</Button>;
+  return (
+    <div className="flex h-svh w-full items-center justify-center">
+      <SignUpForm />
+    </div>
+  );
 }
