@@ -1,8 +1,4 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-};
+import { signUpSchema } from '@/__api/user/schemas';
+import { z } from 'zod';
 
-export type UserCreation = Omit<User, 'id'> & { name?: string };
+export type SignUpData = z.infer<typeof signUpSchema>;

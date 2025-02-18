@@ -1,4 +1,6 @@
-import { signUpSchema, type SignUpData } from '@/__features/sign-up/schemas';
+import { signUpSchema } from '@/__api/user/schemas';
+import { createUser } from '@/__api/user/services';
+import { type SignUpData } from '@/__api/user/types';
 import { Button } from '@/__ui/components/ui/button';
 import {
   Card,
@@ -18,6 +20,7 @@ import {
 } from '@/__ui/components/ui/form';
 import { Input } from '@/__ui/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 
@@ -34,12 +37,19 @@ export function SignUpForm() {
     },
   });
 
+  const signUpMutation = useMutation({
+    mutationFn: createUser,
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   /**
    * Handles the sign up form submission.
    * @param {SignUpData} data - The new user data.
    */
   function onSubmit(data: SignUpData) {
-    console.log(data);
+    signUpMutation.mutate(data);
   }
 
   return (

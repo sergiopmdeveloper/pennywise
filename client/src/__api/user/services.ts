@@ -1,6 +1,6 @@
 import apiClient from '@/__api/base';
-import { MutationResponseWithToken } from '@/__api/types';
-import { type UserCreation } from '@/__api/user/types';
+import { type MutationResponseWithToken } from '@/__api/types';
+import { type SignUpData } from '@/__api/user/types';
 import { type AxiosResponse } from 'axios';
 
 /**
@@ -9,7 +9,7 @@ import { type AxiosResponse } from 'axios';
  * @returns {Promise<AxiosResponse<MutationResponseWithToken, any>>} The user creation response.
  */
 export async function createUser(
-  user: UserCreation,
+  user: SignUpData,
 ): Promise<AxiosResponse<MutationResponseWithToken, any>> {
   return await apiClient.post<MutationResponseWithToken>('/user', user, {
     headers: {
