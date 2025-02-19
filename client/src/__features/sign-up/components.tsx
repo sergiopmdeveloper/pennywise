@@ -21,8 +21,11 @@ import {
 import { Input } from '@/__ui/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { type AxiosError } from 'axios';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 /**
  * Sign up form component.
@@ -37,10 +40,17 @@ export function SignUpForm() {
     },
   });
 
+  const [signUpStatus, setSignUpStatus] = useState<number | undefined>();
+  const navigate = useNavigate();
+
   const signUpMutation = useMutation({
     mutationFn: createUser,
+    onSuccess: () => {
+      navigate('/account');
+    },
     onError: (error) => {
-      console.log(error);
+      const responseError = error as AxiosError;
+      setSignUpStatus(responseError?.response?.status);
     },
   });
 
@@ -53,7 +63,7 @@ export function SignUpForm() {
   }
 
   return (
-    <Card className="w-sm">
+    <Card className="relative w-sm">
       <CardHeader>
         <CardTitle className="text-3xl">Sign up</CardTitle>
         <CardDescription>Create a new account</CardDescription>
@@ -126,10 +136,20 @@ export function SignUpForm() {
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" type="submit" form="sign-up-form">
+        <Button
+          className="w-full"
+          type="submit"
+          form="sign-up-form"
+          disabled={signUpMutation.isPending}
+        >
           Send
+          {signUpMutation.isPending && <Loader2 className="animate-spin" />}
         </Button>
       </CardFooter>
+
+      {signUpStatus === 409 && (
+        <p className="text-destructive absolute -top-6 right-0 text-xs">Email already exists</p>
+      )}
     </Card>
   );
 }
