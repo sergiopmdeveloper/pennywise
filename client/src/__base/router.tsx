@@ -1,5 +1,5 @@
+import SignUp from '@/__features/auth/sign-up/page';
 import Home from '@/__features/home/page';
-import SignUp from '@/__features/sign-up/page';
 import { BrowserRouter, Route, Routes } from 'react-router';
 
 /**
